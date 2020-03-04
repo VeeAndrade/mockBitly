@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setUrls } from '../../actions';
+import { setUrls, addUrls } from '../../actions';
 import { getUrls, postUrl } from '../../apiCalls';
 
 class UrlForm extends Component {
@@ -18,9 +18,14 @@ class UrlForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    postUrl(this.state)
-    .catch(error => console.log(error))
+    this.addUrl(this.state)
     this.clearInputs();
+  }
+
+  addUrl = (state) => {
+    postUrl(state)
+    .then(url => this.props.addUrls(url))
+    .catch(error => console.log(error))
   }
 
   clearInputs = () => {
@@ -54,4 +59,9 @@ class UrlForm extends Component {
   }
 }
 
-export default UrlForm;
+export const mapDispatchToProps = dispatch => ({
+  setUrls: url => dispatch(setUrls(url)),
+  addUrls: url => dispatch(addUrls(url))
+})
+
+export default connect(null, mapDispatchToProps)(UrlForm);
