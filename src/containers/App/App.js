@@ -10,7 +10,6 @@ const App = () => {
           <h1>URL Shortener</h1>
           <UrlForm />
         </header>
-
         <UrlContainer />
       </main>
     );
