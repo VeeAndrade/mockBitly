@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { setUrls } from '../../actions';
+import { getUrls, postUrl } from '../../apiCalls';
 
 class UrlForm extends Component {
-  constructor(props) {
+  constructor() {
     super();
-    this.props = props;
     this.state = {
       title: '',
       urlToShorten: ''
@@ -16,6 +18,8 @@ class UrlForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    postUrl(this.state)
+    .catch(error => console.log(error))
     this.clearInputs();
   }
 
@@ -37,8 +41,8 @@ class UrlForm extends Component {
         <input
           type='text'
           placeholder='URL to Shorten...'
-          name='title'
-          value={this.state.title}
+          name = 'urlToShorten'
+          value={this.state.urlToShorten}
           onChange={e => this.handleNameChange(e)}
         />
 
