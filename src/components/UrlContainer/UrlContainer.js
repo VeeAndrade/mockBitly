@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setUrls } from '../../actions';
+import { setUrls, addUrls } from '../../actions';
 import { getUrls } from '../../apiCalls';
 import './UrlContainer.css';
 
@@ -11,20 +11,18 @@ export class UrlContainer extends Component {
   componentDidMount() {
     getUrls()
       .then(data => this.props.setUrls(data.urls))
-      .catch(err => console.error('Error fetching:', err));
+      .catch(err => console.error('Error fetching:', err))
   }
   
   render() {
-    const urlEls = this.props.urls.map(url => {
-      return url.map(u => {
+    const urlEls = this.props.urls.map(urlObject => {
         return (
-          <div key={u.id} className="url">
-            <h3>{u.title}</h3>
-            <a href={u.short_url} target="blank">{u.short_url}</a>
-            <p>{u.long_url}</p>
+          <div key={urlObject.id} className="url">
+            <h3>{urlObject.title}</h3>
+            <a href={urlObject.short_url} target="blank">{urlObject.short_url}</a>
+            <p>{urlObject.long_url}</p>
           </div>
         )
-      })
     })
     return (
       <section>
